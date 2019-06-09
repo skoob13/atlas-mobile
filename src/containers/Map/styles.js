@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { typography } from 'styles';
 
 export default StyleSheet.create({
   container: {
@@ -13,9 +14,55 @@ export default StyleSheet.create({
     left: 0,
   },
 
+  wrapper: {
+    height: 236,
+    position: 'relative',
+    paddingBottom: 20,
+  },
+
+  blur: {
+    ...StyleSheet.absoluteFillObject,
+    opacity: 0.8,
+  },
+
   item: {
-    height: 110,
+    height: 128,
     backgroundColor: '#fff',
+    flexDirection: 'row',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.08,
+    shadowColor: '#000',
+    shadowRadius: 4,
+    padding: 8,
+    borderRadius: 8,
+  },
+
+  content: {
+    flex: 1,
+  },
+
+  img: {
+    borderRadius: 4,
+    height: 112,
+    width: 120,
+    marginRight: 16,
+  },
+
+  placeCategory: {
+    ...typography.subheading,
+  },
+
+  title: {
+    lineHeight: 48,
+    fontSize: 18,
+    fontWeight: '500',
+  },
+
+  workHours: {
+    ...typography.description,
   },
 
   filter: {

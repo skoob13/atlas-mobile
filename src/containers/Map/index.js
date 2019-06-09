@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import Carousel from 'react-native-snap-carousel';
 import memo from 'memoize-one';
-import { BlurView } from '@react-native-community/blur';
 
 import assets from 'assets';
 import apiActions from 'redux/actions';
@@ -85,46 +84,73 @@ const MapContainer = ({ navigation, getPlaces, places, getCategories }) => {
         ))}
 
       </MapView>
-      <BlurView blurAmount={3} style={styles.nav}>
-        <TouchableOpacity
-          activeOpacity={0.9}
-          style={styles.filter}
-          onPress={() => navigation.navigate({
-            routeName: 'PlacesFilter',
-            params: {
-              setCategory,
-              current: category?.id,
-            },
-          })}
+      <View style={styles.nav}>
+        <View
+          style={styles.wrapper}
         >
-          <Text style={styles.filterLabel}>
-            {category ? category.name : 'Все места'}
-          </Text>
-          <Image style={styles.chevron} source={assets.chevron} />
-        </TouchableOpacity>
-        <Carousel
-          data={filteredPlaces}
-          renderItem={({ item: { title } }) => (
-            <View style={styles.item}>
-              <Text>{title}</Text>
-            </View>
-          )}
-          itemWidth={WIDTH - 80}
-          sliderWidth={WIDTH}
-          // keyExtractor={this.extractKey}
-          scrollEventThrottle={128}
-          onSnapToItem={moveMap}
-          activeSlideOffset={WIDTH / 10}
-          maxToRenderPerBatch={5}
-          windowSize={5}
-          lockScrollWhileSnapping
-          extraData={false}
-          removeClippedSubviews
-          ref={carousel}
-          initialNumToRender={128}
-        />
-        <View style={{ height: 20 }} />
-      </BlurView>
+          <Image
+            style={styles.blur}
+            source={require('../../assets/img/blur/blur.png')}
+            blurRadius={10}
+          />
+          <TouchableOpacity
+            activeOpacity={0.9}
+            style={styles.filter}
+            onPress={() => navigation.navigate({
+              routeName: 'PlacesFilter',
+              params: {
+                setCategory,
+                current: category?.id,
+              },
+            })}
+          >
+            <Text style={styles.filterLabel}>
+              {category ? category.name : 'Все места'}
+            </Text>
+            <Image style={styles.chevron} source={assets.chevron} />
+          </TouchableOpacity>
+          <Carousel
+            data={filteredPlaces}
+            renderItem={({ item: { title, meta, category } }) => (
+              <View style={styles.item}>
+                {meta.imageUrl && (
+                  <Image
+                    style={styles.img}
+                    source={{ uri: meta.imageUrl }}
+                  />
+                )}
+                <View style={styles.content}>
+                  <Text style={styles.placeCategory} numberOfLines={1}>
+                    {category.name}
+                  </Text>
+                  <Text style={styles.title} numberOfLines={1}>
+                    {title}
+                  </Text>
+                  <Text style={styles.workHours} numberOfLines={1}>
+                    {meta.workingHours}
+                  </Text>
+                  <Text style={styles.workHours} numberOfLines={1}>
+                    2 км от вас
+                  </Text>
+                </View>
+              </View>
+            )}
+            itemWidth={WIDTH - 80}
+            sliderWidth={WIDTH}
+            // keyExtractor={this.extractKey}
+            scrollEventThrottle={128}
+            onSnapToItem={moveMap}
+            activeSlideOffset={WIDTH / 10}
+            maxToRenderPerBatch={5}
+            windowSize={5}
+            lockScrollWhileSnapping
+            extraData={false}
+            removeClippedSubviews
+            ref={carousel}
+            initialNumToRender={128}
+          />
+        </View>
+      </View>
     </View>
   );
 };

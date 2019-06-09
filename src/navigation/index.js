@@ -68,7 +68,7 @@ const ModalNavigation = createStackNavigator({
 }, {
   mode: 'modal',
   transparentCard: true,
-  initialRouteName: 'Place',
+  initialRouteName: 'Tabs',
   headerMode: 'none',
 });
 
