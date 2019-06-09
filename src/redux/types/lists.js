@@ -28,3 +28,8 @@ export const putEmotion = createType({
   type: 'emotion/put',
   reducer: 'putEmotion',
 });
+
+export const postRoute = createType({
+  type: 'post-route',
+  reducer: 'postRoute',
+});

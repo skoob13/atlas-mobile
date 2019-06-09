@@ -39,7 +39,7 @@ export default () => {
     categories,
     places: persistedPlaces,
     saved: persistedSaved,
-    // api: combineReducers(apiConfig.reducers),
+    api: combineReducers(apiConfig.reducers),
   });
 
   // const rootReducer = (state, action) => {

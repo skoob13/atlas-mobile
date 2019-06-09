@@ -11,11 +11,24 @@ import memo from 'memoize-one';
 
 
 
-const My = ({ getSaved, saved }) => {
+const My = ({ getSaved, saved, postRoute, loaded, navigation, route }) => {
   const [value, setValue] = React.useState('');
   React.useState(() => {
     getSaved();
   }, []);
+
+  React.useEffect(() => {
+    if (loaded) {
+      navigation.navigate({
+        routeName: 'Map',
+        params: {
+          ...(route?.coords || {}),
+          saved,
+          title: 'Мой маршрут'
+        },
+      });
+    }
+  }, [loaded]);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -41,7 +54,17 @@ const My = ({ getSaved, saved }) => {
             <Text style={{ ...typography.title, flex: 1 }}>
               Мой маршрут
             </Text>
-            <TouchableOpacity onPress={() => {}} style={{ marginLeft: 16, justifyContent: 'center' }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigator.geolocation.getCurrentPosition(({ coords }) => {
+                  postRoute({
+                    start_coords: [coords.latitude, coords.longitude],
+                    places_ids: saved.map(({ id }) => id),
+                  });
+                });
+              }}
+              style={{ marginLeft: 16, justifyContent: 'center' }}
+            >
               <Text
                 style={{
                   fontSize: 18,
@@ -73,6 +96,9 @@ const map = memo((list, categories) => list.map(id => categories[id]));
 
 export default connect(state => ({
   saved: map(state.saved.list, state.saved.data),
+  loaded: state.api.postRoute.loaded,
+  route: state.api.postRoute.data,
 }), {
   getSaved: apiActions.lists.getSaved,
+  postRoute: apiActions.lists.postRoute,
 })(My);

@@ -53,3 +53,12 @@ export const putEmotion = (pk, to) => ({
   pk,
   to,
 });
+
+export const postRoute = body => ({
+  type: listTypes.postRoute.request,
+  method: 'post',
+  url: 'routes/',
+  request: {
+    body,
+  },
+});

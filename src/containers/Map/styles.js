@@ -86,4 +86,13 @@ export default StyleSheet.create({
   chevron: {
     marginLeft: 30,
   },
+
+  listName: {
+    textAlign: 'center',
+    ...typography.buttonLabel,
+    position: 'absolute',
+    top: 64,
+    right: 24,
+    left: 24,
+  },
 });

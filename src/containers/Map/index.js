@@ -8,8 +8,10 @@ import memo from 'memoize-one';
 import assets from 'assets';
 import { CircleButton } from 'components';
 import apiActions from 'redux/actions';
+import { colors } from 'styles';
 
 import styles from './styles';
+
 
 
 const MapContainer = ({ navigation, getPlaces, places, getCategories }) => {
@@ -22,9 +24,9 @@ const MapContainer = ({ navigation, getPlaces, places, getCategories }) => {
       return places.filter(({ category: { id } }) => category.id === id);
     }
     return places;
-  }, [places.length, category]);
+  }, [places.length, category, navigation.getParam('points')]);
 
-  const filteredPlaces = memoFilter(places, category);
+  const filteredPlaces = memoFilter(navigation.getParam('points') ? navigation.getParam('saved') : places, category);
 
   const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
   const initialZoom = 0.05;
@@ -83,7 +85,18 @@ const MapContainer = ({ navigation, getPlaces, places, getCategories }) => {
             }}
           />
         ))}
-
+        {navigation.getParam('points') && (
+          <Polyline
+            strokeColor={colors.accent} // fallback for when `strokeColors` is not supported by the map-provider
+            strokeWidth={4}
+            coordinates={navigation.getParam('points').map(([latitude, longitude]) => ({
+              longitude,
+              latitude,
+            }))}
+            lineCap="round"
+            lineJoin="round"
+          />
+        )}
       </MapView>
       <View style={styles.nav}>
         <View
@@ -169,6 +182,16 @@ const MapContainer = ({ navigation, getPlaces, places, getCategories }) => {
           }}
         />
       </View>
+      {navigation.getParam('title') && (
+        <Text style={styles.listName} onPress={() => {
+          navigation.setParams({
+            title: '',
+            points: null,
+          });
+        }}>
+          {navigation.getParam('title') || ''}
+        </Text>
+      )}
     </View>
   );
 };
