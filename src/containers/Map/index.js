@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Image, Geolocation } from 'react-native';
 import { connect } from 'react-redux';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import Carousel from 'react-native-snap-carousel';
 import memo from 'memoize-one';
 
 import assets from 'assets';
+import { CircleButton } from 'components';
 import apiActions from 'redux/actions';
 
 import styles from './styles';
@@ -150,6 +151,23 @@ const MapContainer = ({ navigation, getPlaces, places, getCategories }) => {
             initialNumToRender={128}
           />
         </View>
+        <CircleButton
+          style={styles.me}
+          asset={require('../../assets/img/me/me.png')}
+          onPress={() => {
+            navigator.geolocation.getCurrentPosition((a) => {
+              if (map.current) {
+                map.current.animateCamera({
+                  center: {
+                    latitude: a.coords.latitude,
+                    longitude: a.coords.longitude,
+                  },
+                  zoom: 15.32,
+                });
+              }
+            })
+          }}
+        />
       </View>
     </View>
   );

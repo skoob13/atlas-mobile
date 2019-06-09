@@ -51,6 +51,12 @@ export default StyleSheet.create({
     marginRight: 16,
   },
 
+  me: {
+    position: 'absolute',
+    bottom: 236 - 24,
+    right: 24,
+  },
+
   placeCategory: {
     ...typography.subheading,
   },

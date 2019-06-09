@@ -4,14 +4,14 @@ import assets from 'assets';
 import styles from './styles';
 
 
-const CircleButton = ({ onPress, style }) => (
+const CircleButton = ({ onPress, style, asset }) => (
   <TouchableOpacity
     onPress={onPress}
     activeOpacity={0.9}
     style={[styles.button, style]}
     hitSlop={{ top: 16, right: 16, bottom: 16, left: 16 }}
   >
-    <Image source={assets.back} />
+    <Image source={asset || assets.back} />
   </TouchableOpacity>
 );
 
