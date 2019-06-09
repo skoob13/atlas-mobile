@@ -1,50 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, FlatList } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 import SmallCard from '../SmallCard';
 import SmallCardGroup from '../SmallCardGroup';
 import styles from './styles';
 
 
-const TEST_DATA = [
-  {
-    key: 0,
-    title: 'Исаакиевский  собор',
-    isGroup: false,
-  },
-  {
-    key: 1,
-    title: 'Исаакиевский  собор',
-    isGroup: true,
-  },
-  {
-    key: 2,
-    title: 'Исаакиевский  собор',
-    isGroup: false,
-  },
-  {
-    key: 3,
-    title: 'Исаакиевский  собор',
-    isGroup: false,
-  },
-];
 
+const CardsList = ({ title, places, navigation }) => {
 
-const CardsList = ({ title }) => {
   // eslint-disable-next-line react/prop-types
-  const renderItem = ({ item, index }) => (
-    <View
-      key={item.key}
-      style={(index === 0) && styles.marginLeft}
-    >
-      {item.isGroup ? (
-        <SmallCardGroup title={item.title} />
-      ) : (
-        <SmallCard title={item.title} />
-      )}
-    </View>
-  );
+  const renderItem = ({ item, index }) => {
+
+    return (
+      <View
+        key={item.id}
+        style={(index === 0) && styles.marginLeft}
+      >
+        {item.user ? (
+          <SmallCardGroup
+            title={item.title}
+            navigation={navigation}
+            item={item}
+          />
+        ) : (
+          <SmallCard
+            title={item.title}
+            uri={item.meta.image_url}
+            navigation={navigation}
+            item={item}
+          />
+        )}
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -55,8 +46,9 @@ const CardsList = ({ title }) => {
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={TEST_DATA}
+          data={places}
           renderItem={renderItem}
+
         />
       </View>
     </View>
@@ -67,4 +59,4 @@ CardsList.propTypes = {
   title: PropTypes.string,
 };
 
-export default CardsList;
+export default withNavigation(CardsList);

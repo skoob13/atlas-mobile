@@ -11,6 +11,17 @@ export const getPlaces = () => ({
   },
 });
 
+export const getLists = () => ({
+  type: listTypes.getLists.request,
+  method: 'get',
+  url: 'places-lists/',
+  request: {
+    params: {
+      limit: 200,
+    },
+  },
+});
+
 export const getCategories = () => ({
   type: listTypes.getCategories.request,
   method: 'get',

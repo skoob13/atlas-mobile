@@ -5,37 +5,40 @@ import { TouchableOpacity, View, Text, Image } from 'react-native';
 import styles from './styles';
 
 
-const SmallCard = ({ title }) => (
+const SmallCard = ({ item, navigation }) => (
   <TouchableOpacity
     style={styles.container}
-    onPress={() => console.log('onPress')}
+    onPress={() => navigation.navigate({
+      routeName: 'PlacesList',
+      params: item,
+    })}
     activeOpacity={0.9}
   >
     <View style={styles.card}>
       <View style={[styles.row, styles.firstRow]}>
         <Image
-          source={{ uri: 'https://pp.userapi.com/c853520/v853520138/5f599/9B4BNXMMIjs.jpg' }}
+          source={{ uri: item.places[0].meta.imageUrl }}
           style={styles.image}
         />
         <Image
-          source={{ uri: 'https://pp.userapi.com/c853520/v853520138/5f599/9B4BNXMMIjs.jpg' }}
+          source={{ uri: item.places[1].meta.imageUrl }}
           style={styles.image}
         />
       </View>
       <View style={[styles.row, styles.secondRow]}>
         <Image
-          source={{ uri: 'https://pp.userapi.com/c853520/v853520138/5f599/9B4BNXMMIjs.jpg' }}
+          source={{ uri: item.places[2].meta.imageUrl }}
           style={styles.image}
         />
         <Image
-          source={{ uri: 'https://pp.userapi.com/c853520/v853520138/5f599/9B4BNXMMIjs.jpg' }}
+          source={{ uri: item.places[3].meta.imageUrl }}
           style={styles.image}
         />
       </View>
 
       <View style={styles.user}>
         <Image
-          source={{ uri: 'https://atozhairstyles.com/wp-content/uploads/2017/07/5-Brush-Over.jpg?x70181' }}
+          source={{ uri: item.user.image }}
           style={styles.userImage}
         />
       </View>
@@ -44,7 +47,7 @@ const SmallCard = ({ title }) => (
       style={styles.title}
       numberOfLines={2}
     >
-      {title}
+      {item.title}
     </Text>
   </TouchableOpacity>
 );

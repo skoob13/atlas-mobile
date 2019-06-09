@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
 
   contentContainerStyle: {
-    paddingTop: getStatusBarHeight() + 24,
+    paddingTop: getStatusBarHeight() + 84,
     paddingHorizontal: 16,
     paddingBottom: getBottomSpace() + 24,
   },
@@ -47,6 +47,7 @@ export default StyleSheet.create({
   placeCategory: {
     ...typography.subheading,
     color: colors.accent,
+    fontWeight: '500'
   },
 
   placeTitle: {

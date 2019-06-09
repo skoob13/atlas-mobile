@@ -7,6 +7,14 @@ export const getPlaces = createType({
   schema: djangoPaginationSchema,
 });
 
+
+export const getLists = createType({
+  type: 'lists/get',
+  reducer: 'getLists',
+  schema: djangoPaginationSchema,
+});
+
+
 export const getCategories = createType({
   type: 'categories/get',
   reducer: 'getCategories',

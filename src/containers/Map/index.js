@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import Carousel from 'react-native-snap-carousel';
 import memo from 'memoize-one';
+import convert from 'convert-seconds';
 
 import assets from 'assets';
 import { CircleButton } from 'components';
@@ -183,13 +184,13 @@ const MapContainer = ({ navigation, getPlaces, places, getCategories }) => {
         />
       </View>
       {navigation.getParam('title') && (
-        <Text style={styles.listName} onPress={() => {
+        <Text style={[styles.listName, { lineHeight: 24 }]} onPress={() => {
           navigation.setParams({
             title: '',
             points: null,
           });
         }}>
-          {navigation.getParam('title') || ''}
+          {`${navigation.getParam('title') || ''}\nВ дороге ${convert(navigation.getParam('duration')).hours} час ${convert(navigation.getParam('duration')).minutes < 10 ? `0${convert(navigation.getParam('duration')).minutes}` : convert(navigation.getParam('duration')).minutes} минут (в местах ${convert(navigation.getParam('durationInPlaces')).hours}:${convert(navigation.getParam('durationInPlaces')).minutes < 10 ? `0${convert(navigation.getParam('durationInPlaces')).minutes}` : convert(navigation.getParam('durationInPlaces')).minutes} часа)`}
         </Text>
       )}
     </View>

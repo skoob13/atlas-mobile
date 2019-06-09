@@ -10,21 +10,22 @@ const { height, width } = Dimensions.get('window');
 
 const PlacesList = ({ navigation }) => {
   const [headerHeight, setHeaderHeight] = React.useState(height);
+  const item = navigation.state.params;
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={['1', '2', '3']}
+        data={item.places}
         contentContainerStyle={styles.contentContainerStyle}
         renderItem={({ item }) => <Place {...item} />}
         ItemSeparatorComponent={() => (
           <View style={{ height: 32 }} />
         )}
         ListHeaderComponent={(
-          <View style={styles.header} onLayout={({ nativeEvent: { layout: { height } } }) => setHeaderHeight(height)}>
+          <View style={styles.header}>
             <View style={styles.headerImageContainer}>
               <Image
-                source={{ uri: 'https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg' }}
+                source={{ uri: item.user.image }}
                 style={styles.headerImage}
               />
             </View>
@@ -34,17 +35,17 @@ const PlacesList = ({ navigation }) => {
                   Список
                 </Text>
                 <Text style={styles.placeCategory}>
-                  Ресторан
+                  Авторский список
                 </Text>
               </View>
               <Text style={styles.placeTitle}>
-                Le Moujik
+                {item.title}
               </Text>
-              <Avatar uri="https://pp.userapi.com/JQunkTuX9ZFVl1fUKvahw1WMgJ5v2otq7MYprg/BWzqNgj6EAw.jpg">
-                Сергей Смагин
+              <Avatar uri={item.user.image}>
+                {item.user.firstName} {item.user.lastName}
               </Avatar>
               <Text style={styles.description}>
-                Петербург полон парадоксов: это одновременно и самый хорошо сохранившийся большой исторический город Европы, и самая молодая из европейских столиц.
+                {item.description}
               </Text>
             </View>
           </View>

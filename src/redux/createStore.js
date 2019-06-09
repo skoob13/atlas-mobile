@@ -6,7 +6,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import apiConfig from './helpers/setup';
-import { auth, places, categories, saved } from './reducers';
+import { auth, places, categories, saved, lists } from './reducers';
 import sagas from './sagas';
 
 
@@ -19,6 +19,11 @@ const persistedSaved = persistReducer({
   key: 'saved',
   storage,
 }, saved);
+
+const persistedList = persistReducer({
+  key: 'lists',
+  storage,
+}, lists);
 
 export default () => {
   const sagaMiddleware = createSagaMiddleware();
@@ -39,6 +44,7 @@ export default () => {
     categories,
     places: persistedPlaces,
     saved: persistedSaved,
+    lists: persistedList,
     api: combineReducers(apiConfig.reducers),
   });
 

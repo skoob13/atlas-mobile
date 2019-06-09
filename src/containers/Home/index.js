@@ -6,39 +6,205 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import { CardsList } from 'components';
+import apiActions from 'redux/actions';
 
 import styles from './styles';
 
 
-const Home = ({ navigation: { navigate } }) => (
-  <ScrollView
-    style={styles.wrapper}
-    contentContainerStyle={styles.container}
-    alwaysBounceVertical={false}
-    showsVerticalScrollIndicator={false}
-  >
-    <View style={styles.headerImageContainer}>
-      <Image
-        source={{ uri: 'https://pp.userapi.com/c853520/v853520138/5f599/9B4BNXMMIjs.jpg' }}
-        style={styles.headerImage}
-      />
-    </View>
-    <View style={styles.titleWrapper}>
-      <Text style={styles.title} onPress={() => navigate('Place')}>
-        Санкт-Петербург
-      </Text>
-      <Text style={styles.subtitle}>
-        Петербург полон парадоксов: это одновременно и самый хорошо сохранившийся большой исторический город Европы, и самая молодая из европейских столиц.
-      </Text>
-    </View>
+const r1c1 = [
 
-    <CardsList title="Для тех, кто в городе впервые" />
-    <CardsList title="Для тех, кто в городе впервые" />
-    <CardsList title="Для тех, кто в городе впервые" />
-  </ScrollView>
-);
+];
+const r1c2 = [];
+const r1c3 = [];
+const r1c4 = [];
+
+const Home = ({ navigation: { navigate }, getLists, leaders }) => {
+  React.useEffect(() => {
+    getLists();
+  }, []);
+
+  return (
+    <ScrollView
+      style={styles.wrapper}
+      contentContainerStyle={styles.container}
+      alwaysBounceVertical={false}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={styles.headerImageContainer}>
+        <Image
+          source={{ uri: 'https://pp.userapi.com/c853520/v853520138/5f599/9B4BNXMMIjs.jpg' }}
+          style={styles.headerImage}
+        />
+      </View>
+      <View style={styles.titleWrapper}>
+        <Text style={styles.title} onPress={() => navigate('Place')}>
+          Санкт-Петербург
+        </Text>
+        <Text style={styles.subtitle}>
+          Петербург полон парадоксов: это одновременно и самый хорошо сохранившийся большой исторический город Европы, и самая молодая из европейских столиц.
+        </Text>
+      </View>
+  
+      <CardsList
+        places={leaders}
+        title="Лидеры мнений"
+      />
+      <CardsList
+        title="Для тех, кто в городе впервые"
+        places={[
+          {
+            "id": 55,
+            "category": {
+                "id": 5,
+                "name": "Петербург с открыток"
+            },
+            "meta": {
+                "id": 55,
+                "lat": "59.934195",
+                "lng": "30.306588",
+                "address": "Исаакиевская пл., 4",
+                "working_hours": "май-сентябрь: пн-вт, чт-вс 10.30–22.30; октябрь-апрель: пн-вт, чт-вс 10.30–18.00; часы работы колоннады уточняйте на сайте",
+                "website": "http://www.cathedral.ru/isakievskii_sobor",
+                "phone": "+7 812 315 97 32",
+                "image_url": "https://atlas.meduza.io/api/v3/image/attachments/images/001/747/627/large/9pE23rEafOHbar-Tp7avpg.jpg"
+            },
+            "rating": null,
+            "visited_by_count": 0,
+            "saved_by_count": 0,
+            "is_saved": false,
+            "title": "Исаакиевский собор",
+            "description": "Пока это еще музей, где верующим отведен для молитвы только один придел, а что будет дальше, непонятно: хотя губернатор Полтавченко в январе 2017 года твердо объявил о передаче собора РПЦ, ситуация остается туманной. Ключевой вопрос, разумеется, деньги: кто будет содержать и реставрировать громадный, богато украшенный храм, рассчитанный на 12 тысяч прихожан. Притом что вложений он всегда требовал поистине царских. Позднеклассический собор по проекту Огюста Монферрана строился 40 лет (1818–1858) и обошелся казне в 23 миллиона рублей (это много). Один фундамент Исаакия стоил больше, чем весь Троицко-Измайловский собор — тоже, кстати, немаленький. 112 монолитных колонн из гранита; 400 кг золота, 16 тонн малахита, 500 кг лазурита, а мрамора не счесть; 60 рабочих, погибших от ртутных паров при золочении купола; живопись Брюллова и Бруни, скульптуры Клодта и Витали. Вышло на редкость величественно. По отдельному билету можно подняться (пешком) на колоннаду и оценить вид на город с высоты 43 метров. Летом колоннада открыта почти до утра."
+        },
+        {
+          "id": 18,
+          "category": {
+              "id": 2,
+              "name": "Куда пойти с детьми"
+          },
+          "meta": {
+              "id": 18,
+              "lat": "59.929388",
+              "lng": "30.287873",
+              "address": "наб. Адмиралтейского канала, 2",
+              "working_hours": "пн-чт 10.30–22.00, пт-вс 10.30–23.00",
+              "website": "http://www.newhollandsp.ru",
+              "phone": "+7 812 245 20 35",
+              "image_url": "https://atlas.meduza.io/api/v3/image/attachments/images/001/752/535/large/JENqZcZhyCRdXbRRVmWX9A.jpg"
+          },
+          "rating": null,
+          "visited_by_count": 0,
+          "saved_by_count": 0,
+          "is_saved": false,
+          "title": "Новая Голландия",
+          "description": "Фортификация на воде выглядит мрачно и таинственно — то ли темница, то ли крепость, но это не что иное, как бывший склад. Треугольный остров между Невой и Мойкой образовался при рытье каналов для судостроительных нужд Адмиралтейства. В ту пору район верфей, где по приглашению Петра I трудились амстердамские мастера, звался Голландией, а остров, который приспособили для хранения корабельного леса, окрестили Голландией Новой. В 1770-х на смену деревянным амбарам здесь пришли кирпичные пакгаузы; именно тогда француз Валлен-Деламот спроектировал величественные внешние фасады и грандиозную, будто с гравюр Пиранези, арку со стороны Мойки — без преувеличения, одно из самых сильных зрелищ Петербурга. Позже на территории появилось еще несколько сооружений, в том числе круглое здание морской тюрьмы, прозванное «Бутылкой» (оно якобы дало жизнь выражению «лезть в бутылку»)."
+      },
+          {
+            "id": 57,
+            "category": {
+                "id": 5,
+                "name": "Петербург с открыток"
+            },
+            "meta": {
+                "id": 57,
+                "lat": "59.937496",
+                "lng": "30.308668",
+                "address": "Адмиралтейский проезд, 1",
+                "working_hours": "",
+                "website": "",
+                "phone": "",
+                "image_url": "https://atlas.meduza.io/api/v3/image/attachments/images/001/750/152/large/REwgJX0ucFSbQjZZV5Djyw.jpg"
+            },
+            "rating": null,
+            "visited_by_count": 0,
+            "saved_by_count": 1,
+            "is_saved": true,
+            "title": "Адмиралтейство",
+            "description": "Крепость-верфь на левом берегу Невы появилась почти одновременно с самим городом — в ноябре 1704 года Петр I записал в походном журнале: «Заложили Адмиралтейский дом и веселились в остерии». Парусники сходили со здешних стапелей вплоть до середины XIX века (модель каждого по завету царя сдавалась в особое хранилище, модель-камеру, из которой вырос Военно-морской музей), после остались лишь флотские ведомства — Главштаб ВМФ квартирует тут по сей день."
+        },
+
+        ]}
+      />
+      <CardsList
+        places={[
+          {
+              "id": 1,
+              "category": {
+                  "id": 1,
+                  "name": "Бары и клубы"
+              },
+              "meta": {
+                  "id": 1,
+                  "lat": "59.935907",
+                  "lng": "30.343163",
+                  "address": "наб. реки Фонтанки, 17",
+                  "working_hours": "пн-чт, вс 14.00–2.00, пт-сб 14.00–6.00",
+                  "website": "https://www.facebook.com/fontanka17",
+                  "phone": "+7 812 312 57 54",
+                  "image_url": "https://atlas.meduza.io/api/v3/image/attachments/images/001/747/725/large/I8p9jIswhxPcppZFhBHKjg.jpg"
+              },
+              "rating": "2.00",
+              "visited_by_count": 0,
+              "saved_by_count": 1,
+              "is_saved": true,
+              "title": "Продукты",
+              "description": "Крохотный зал обставлен с продуманной небрежностью: разномастная мебель, ностальгический декор. Окрестности при этом самые парадные; можно сесть у окна и глазеть на торжественный фасад Шереметевского дворца на другой стороне набережной, потягивая отличный джин-тоник. Для такого демократичного заведения в «Продуктах» вообще очень трепетно относятся к коктейлям: в карте больше 30 классических позиций и сезонные предложения. По пятницам и субботам здесь крутят винил — и только винил — диджеи со склонностью к незамыленному ретро, а для будних дней предусмотрен джукбокс, загруженный семидюймовыми пластинками и работающий за дойчмарки (их продаст бармен)."
+          },
+          {
+              "id": 2,
+              "category": {
+                  "id": 1,
+                  "name": "Бары и клубы"
+              },
+              "meta": {
+                  "id": 2,
+                  "lat": "59.931967",
+                  "lng": "30.323668",
+                  "address": "наб. канала Грибоедова, 31",
+                  "working_hours": "пн-чт, вс 11.00–1.00, пт-сб 11.00–6.00",
+                  "website": "https://www.facebook.com/barpifpaf",
+                  "phone": "+7 812 312 62 27",
+                  "image_url": "https://atlas.meduza.io/api/v3/image/attachments/images/001/726/078/large/lq3BwjO59UHUKmvWcpbrpw.jpg"
+              },
+              "rating": "-2.00",
+              "visited_by_count": 0,
+              "saved_by_count": 1,
+              "is_saved": true,
+              "title": "Пиф-Паф",
+              "description": "Днем в «Пиф-Пафе» стригутся и красятся, а по ночам пьют и приплясывают на двух квадратных метрах — бар невелик, но когда это останавливало танцующих. Помимо веселья, отличных шотов и домашних настоек заведение славится бургерами (240–390 р.), которых в меню добрая дюжина: «Арарат» с бараниной, редисом и глазированным луком, «Черная мамба» с говядиной на черной булочке, «Осло» с семгой и так далее. Поев и выпив, имеет смысл пробиться сквозь толпу в дальний зальчик: там есть стол для кикера."
+          },
+          {
+              "id": 3,
+              "category": {
+                  "id": 1,
+                  "name": "Бары и клубы"
+              },
+              "meta": {
+                  "id": 3,
+                  "lat": "59.938128",
+                  "lng": "30.346545",
+                  "address": "Белинского, 9",
+                  "working_hours": "пн-вс 19.00–3.00",
+                  "website": "http://hatgroup.ru/the-hat-bar/",
+                  "phone": "+7 812 454 02 22",
+                  "image_url": "https://atlas.meduza.io/api/v3/image/attachments/images/001/774/360/large/j-WszYmVvHmwQat6QA3QOQ.jpg"
+              },
+              "rating": null,
+              "visited_by_count": 0,
+              "saved_by_count": 0,
+              "is_saved": false,
+              "title": "The Hat",
+              "description": "«Шляпу» на короткой, но насыщенной заведениями улице Белинского открыл музыкант Билли Новик из Billyʼs Band. Каждый день с 11 вечера здесь джемуют лучшие джазмены города. Сложившийся состав участников нередко разбавляют заезжие знаменитости уровня Нино Катамадзе, The Tiger Lillies или солистов эллингтоновского оркестра. Звезды выступают без объявлений и гонораров — из чистой любви к искусству. В пятницу и субботу на входе могут попросить депозит в 200 рублей — на них вам нальют в баре."
+          }
+      ]
+  }
+        title="Путеводитель"
+      />
+    </ScrollView>
+  );
+};
 
 Home.propTypes = {
   navigation: PropTypes.shape({
@@ -46,4 +212,8 @@ Home.propTypes = {
   }),
 };
 
-export default Home;
+export default connect(state => ({
+  leaders: state.lists.list.map(id => state.lists.data[id]).reverse(),
+}), {
+  getLists: apiActions.lists.getLists,
+})(Home);

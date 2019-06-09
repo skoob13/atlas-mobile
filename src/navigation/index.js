@@ -52,7 +52,7 @@ const ModalNavigation = createStackNavigator({
       },
     },
     {
-      initialRouteName: 'User',
+      initialRouteName: 'Home',
       lazy: false,
       tabBarOptions: {
         allowFontScaling: true,

@@ -5,14 +5,17 @@ import { Text, Image, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
 
-const SmallCard = ({ title }) => (
+const SmallCard = ({ title, uri, navigation, item }) => (
   <TouchableOpacity
     style={styles.container}
-    onPress={() => console.log('onPress')}
+    onPress={() => navigation.navigate({
+      routeName: 'Place',
+      params: item,
+    })}
     activeOpacity={0.9}
   >
     <Image
-      source={{ uri: 'https://pp.userapi.com/c853520/v853520138/5f599/9B4BNXMMIjs.jpg' }}
+      source={{ uri }}
       style={styles.image}
     />
     <Text
