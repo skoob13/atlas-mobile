@@ -4,3 +4,4 @@ export { default as SmallCard } from './SmallCard';
 export { default as SmallCardGroup } from './SmallCardGroup';
 export { default as Avatar } from './Avatar';
 export { default as CircleButton } from './CircleButton';
+export { default as Place } from './Place';

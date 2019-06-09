@@ -11,6 +11,7 @@ import Home from 'containers/Home';
 import PlacesFilter from 'containers/PlacesFilter';
 import PlacesList from 'containers/PlacesList';
 import Place from 'containers/Place';
+import My from 'containers/My';
 import { colors } from 'styles';
 
 import styles from './styles';
@@ -19,7 +20,7 @@ import styles from './styles';
 const ModalNavigation = createStackNavigator({
   Tabs: createBottomTabNavigator(
     {
-      home: {
+      Home: {
         screen: Home,
         navigationOptions: {
           tabBarLabel: 'Город',
@@ -29,29 +30,29 @@ const ModalNavigation = createStackNavigator({
           }),
         },
       },
-      map: {
+      Map: {
         screen: Map,
         navigationOptions: {
           tabBarLabel: 'Город',
           tabBarIcon: TabIcon({
-            image: assets.home,
-            imageFocused: assets.homeFill,
+            image: require('../assets/img/icon/map-pointer.png'),
+            imageFocused: require('../assets/img/icon/map-pointer-s.png'),
           }),
         },
       },
-      user: {
-        screen: Home,
+      User: {
+        screen: My,
         navigationOptions: {
-          tabBarLabel: 'Город',
+          tabBarLabel: 'Мой маршрут',
           tabBarIcon: TabIcon({
-            image: assets.home,
-            imageFocused: assets.homeFill,
+            image: require('../assets/img/person-non.png'),
+            imageFocused: require('../assets/img/person.png'),
           }),
         },
       },
     },
     {
-      initialRouteName: 'home',
+      initialRouteName: 'User',
       lazy: false,
       tabBarOptions: {
         allowFontScaling: true,
