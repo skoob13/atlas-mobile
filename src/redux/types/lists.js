@@ -12,3 +12,19 @@ export const getCategories = createType({
   reducer: 'getCategories',
   schema: djangoPaginationSchema,
 });
+
+export const getSaved = createType({
+  type: 'saved/get',
+  reducer: 'getSaved',
+  schema: djangoPaginationSchema,
+});
+
+export const postSaved = createType({
+  type: 'saved/post',
+  reducer: 'postSaved',
+});
+
+export const putEmotion = createType({
+  type: 'emotion/put',
+  reducer: 'putEmotion',
+});

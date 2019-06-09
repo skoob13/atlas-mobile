@@ -1,17 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import { connect } from 'react-redux';
 import { Place } from 'components';
 import { typography } from 'styles';
 import styles from './styles';
 
+import apiActions from 'redux/actions';
+import memo from 'memoize-one';
 
-const My = () => {
+
+
+const My = ({ getSaved, saved }) => {
   const [value, setValue] = React.useState('');
+  React.useState(() => {
+    getSaved();
+  }, []);
+
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <FlatList
-        data={[1,2,3]}
+        data={saved}
         renderItem={({ item }) => (
           <Place {...item} />
         )}
@@ -21,6 +30,8 @@ const My = () => {
         ListHeaderComponent={(
           <View style={styles.top} />
         )}
+        keyExtractor={item => String(item.id)}
+        contentContainerStyle={{ paddingHorizontal: 16 }}
       />
       <View style={{ height: 32 }} />
       <Image blurRadius={10} source={require('../../assets/img/blur/blur.png')} style={[styles.header, { opacity: 1 }]} />
@@ -58,4 +69,10 @@ const My = () => {
   );
 };
 
-export default My;
+const map = memo((list, categories) => list.map(id => categories[id]));
+
+export default connect(state => ({
+  saved: map(state.saved.list, state.saved.data),
+}), {
+  getSaved: apiActions.lists.getSaved,
+})(My);
