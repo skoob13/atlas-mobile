@@ -29,6 +29,12 @@ export default {
     fontWeight: '400',
   },
 
+  bodyPlace: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
+  },
+
   subheading: {
     fontSize: 14,
     color: 'rgba(0,0,0,0.7)',
@@ -39,5 +45,17 @@ export default {
     fontSize: 12,
     lineHeight: 16,
     color: 'rgba(0,0,0,0.8)',
+  },
+
+  buttonLabel: {
+    fontSize: 18,
+    lineHeight: 48,
+    fontWeight: '500',
+  },
+
+  price: {
+    fontSize: 33,
+    lineHeight: 48,
+    fontWeight: '600',
   },
 };

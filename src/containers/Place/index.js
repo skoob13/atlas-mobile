@@ -8,11 +8,14 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
+import { connect } from 'react-redux';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
+import apiActions from 'redux/actions';
 import { CircleButton } from 'components';
 
 import styles from './styles';
+
 
 
 const initialZoom = 0.005;
@@ -37,9 +40,16 @@ const HOURS = [
   '08:00 - 24:00',
 ];
 
-const PRICE = 3;
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
-const Place = ({ navigation }) => {
+const PRICE = getRandomArbitrary(1, 5);
+
+const Place = ({ navigation, postSaved, getSaved }) => {
+  const { title, category, meta, description, id } = navigation.state.params;
+  const [isSaved, setIsSaved] = React.useState(navigation.state.params.isSaved);
+
   const [firstRenderMade, setFirstRenderMade] = useState(false);
 
   const [expanded, changeExpandedStatus] = useState(false);
@@ -73,7 +83,7 @@ const Place = ({ navigation }) => {
   });
 
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Animated.ScrollView
         style={[styles.wrapper, { opacity }]}
         contentContainerStyle={styles.container}
@@ -82,20 +92,20 @@ const Place = ({ navigation }) => {
       >
         <View style={styles.headerImageContainer}>
           <Image
-            source={{ uri: 'https://pp.userapi.com/c853520/v853520138/5f599/9B4BNXMMIjs.jpg' }}
+            source={{ uri: meta.imageUrl }}
             style={styles.headerImage}
           />
         </View>
 
         <View style={styles.titleWrapper}>
           <Text style={styles.subtitle}>
-            Ресторан
+            {category.name}
           </Text>
           <Text style={styles.title}>
-            Le Moujik
+            {title}
           </Text>
           <Text style={styles.caption}>
-            Набережная реки Фонтанки, 52
+            {meta.address}
           </Text>
         </View>
 
@@ -116,7 +126,7 @@ const Place = ({ navigation }) => {
               }
             }}
           >
-            Шеф-повар бистро «Лё Мужик» русский, ведь французский паспорт — еще не залог таланта. Не каждый русский профессионал гастрономии классно варит серые щи, делает пастилу и пряники. Не каждый французский повар умеет готовить притворно-незатейливые блюда для бистро из экзотических русских продуктов. Мы очень гордимся умением нашего шеф-повара Руслана Агейченко чувствовать текстуры и вкусы. Руслан — талантливый, энергичный и открытый новому профессионал высочайшего класса. Ему 38 лет, из которых 21 год он провел в кухне. Он много работал под руководством лучших французских поваров в Петербурге и прошел несколько серьезных стажировок во Франции. У Руслана огромный личный опыт, связанный с французской кухней. Кроме того, он собрал фантастическую команду. Да и стены эти ему не чужие — много лет назад на кухне, которую Руслан Агейченко сейчас полностью переделал под себя, он однажды работал — на конкурсе локальных продуктов. Работал — и победил. Уважение традиций и умение чувствовать время, любовь и самоирония движут каждым, кто придумал это бистро.
+            {description}
           </Text>
         </Animated.View>
 
@@ -147,8 +157,8 @@ const Place = ({ navigation }) => {
           <>
             <MapView
               initialRegion={{
-                latitude: 59.939095,
-                longitude: 30.315868,
+                latitude: meta.lat,
+                longitude: meta.lng,
                 latitudeDelta: initialZoom,
                 longitudeDelta: initialZoom * (window.width / window.height),
               }}
@@ -171,8 +181,8 @@ const Place = ({ navigation }) => {
             >
               <Marker
                 coordinate={{
-                  latitude: 59.939095,
-                  longitude: 30.315868,
+                  latitude: meta.lat,
+                  longitude: meta.lng,
                 }}
               />
             </MapView>
@@ -190,9 +200,16 @@ const Place = ({ navigation }) => {
         <TouchableOpacity
           style={styles.addButton}
           activeOpacity={0.8}
+          onPress={() => {
+            setIsSaved(!isSaved);
+            postSaved(id, !isSaved);
+            setTimeout(() => {
+              getSaved();
+            }, 4000);
+          }}
         >
           <Text style={styles.buttonTitle}>
-            Добавить в Мой маршрут
+            {isSaved ? 'Удалить из моего маршрута' : 'Добавить в Мой маршрут'}
           </Text>
         </TouchableOpacity>
 
@@ -205,25 +222,11 @@ const Place = ({ navigation }) => {
               Часы работы
             </Text>
             <View style={styles.hours}>
-              {WEEK.map((day, orderid) => {
-                const isGrey = (orderid === 5) || (orderid === 6);
-
-                return (
-                  <View style={styles.hoursRow}>
-                    <Text
-                      style={[
-                        styles.hoursText,
-                        isGrey && styles.grey,
-                      ]}
-                    >
-                      {day}
-                    </Text>
-                    <Text style={styles.hoursText}>
-                      {HOURS[orderid]}
-                    </Text>
-                  </View>
-                );
-              })}
+              <View style={styles.hoursRow}>
+                <Text style={styles.hoursText}>
+                  {meta.workingHours}
+                </Text>
+              </View>
             </View>
           </View>
           <View style={styles.rowSection}>
@@ -255,7 +258,7 @@ const Place = ({ navigation }) => {
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       />
-    </>
+    </View>
   );
 };
 
@@ -266,4 +269,7 @@ Place.propTypes = {
 };
 
 
-export default Place;
+export default connect(null, {
+  postSaved: apiActions.lists.postSaved,
+  getSaved: apiActions.lists.getSaved,
+})(Place);

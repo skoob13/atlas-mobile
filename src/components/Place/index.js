@@ -23,8 +23,9 @@ const getEmo = (rating) => {
 }
 
 const Place = (props) => {
-  const { meta, description, title, postSaved, id, isSaved, putEmotion, navigation } = props;
+  const { meta, description, title, postSaved, id, putEmotion, navigation } = props;
   const [rating, setRating] = React.useState(Number(props.rating));
+  const [isSaved, setIsSaved] = React.useState(props.isSaved);
 
   return (
     <View style={styles.card}>
@@ -82,7 +83,10 @@ const Place = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={() => postSaved(id, !isSaved)}
+          onPress={() => {
+            setIsSaved(!isSaved);
+            postSaved(id, !isSaved)
+          }}
           hitSlop={{ left: 16, right: 16 }}
           style={{ alignItems: 'center', justifyContent: 'center', height: 48, marginLeft: 16 }}
         >
